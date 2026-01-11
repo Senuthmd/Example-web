@@ -1,95 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>SENU MODZ</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+<meta charset="UTF-8">
+<title>SENU MODZ</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+body {
+  margin:0;
+  background:black;
+  color:#00ffff;
+  font-family:"Courier New", monospace;
+  overflow:hidden;
+  text-align:center;
+}
 
-    body {
-      background-color: #0b0b0b;
-      color: #ffffff;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+#loader {
+  position:fixed;
+  inset:0;
+  background:black;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  z-index:10;
+}
 
-    .card {
-      background: #141414;
-      padding: 60px;
-      border-radius: 16px;
-      text-align: center;
-      width: 90%;
-      max-width: 800px;
-      box-shadow: 0 0 40px rgba(0, 255, 255, 0.35);
-    }
+nav {
+  position:fixed;
+  top:0;
+  width:100%;
+  padding:15px;
+  background:#000;
+  z-index:2;
+}
 
-    h1 {
-      font-size: 60px;
-      margin-bottom: 15px;
-      color: #00ffff;
-      letter-spacing: 3px;
-    }
+nav a {
+  color:#00ffff;
+  margin:0 15px;
+  text-decoration:none;
+  font-size:18px;
+}
 
-    h2 {
-      font-size: 26px;
-      font-weight: normal;
-      margin-bottom: 30px;
-      color: #cccccc;
-    }
+.hero {
+  position:relative;
+  z-index:1;
+  padding-top:150px;
+}
 
-    .tag {
-      background: #00ffff;
-      color: #000;
-      padding: 10px 25px;
-      border-radius: 30px;
-      display: inline-block;
-      margin-bottom: 35px;
-      font-size: 18px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
+h1 {
+  font-size:70px;
+  text-shadow:0 0 20px #00ffff;
+}
 
-    .info p {
-      margin: 18px 0;
-      font-size: 22px;
-    }
+#typing {
+  font-size:26px;
+  color:#ccc;
+}
 
-    .info span {
-      color: #00ffff;
-      font-weight: bold;
-    }
+.btn {
+  margin:15px;
+  padding:14px 30px;
+  border:2px solid #00ffff;
+  color:#00ffff;
+  text-decoration:none;
+  border-radius:30px;
+  display:inline-block;
+}
+.btn:hover {
+  background:#00ffff;
+  color:black;
+}
 
-    footer {
-      margin-top: 40px;
-      font-size: 16px;
-      color: #888;
-    }
-  </style>
+canvas {
+  position:fixed;
+  inset:0;
+  z-index:0;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="card">
-    <h1>SENU MODZ</h1>
-    <h2>Bot Name: SENU MD V5!!</h2>
+<div id="loader">Initializing system...</div>
 
-    <div class="tag">TECH GUY / HACKER</div>
+<canvas id="matrix"></canvas>
 
-    <div class="info">
-      <p><span>Email:</span> senumodz@gmail.com</p>
-      <p><span>WhatsApp:</span> +94 743 400 406</p>
-    </div>
+<nav>
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="projects.html">Projects</a>
+  <a href="contact.html">Contact</a>
+  <a href="admin.html">Admin</a>
+</nav>
 
-    <footer>
-      © 2026 SENU MODZ
-    </footer>
-  </div>
+<div class="hero">
+  <h1>SENU MODZ</h1>
+  <div id="typing"></div>
+
+  <a class="btn" href="mailto:senumodz@gmail.com"><i class="fa fa-envelope"></i> Email</a>
+  <a class="btn" href="https://wa.me/94743400406" target="_blank"><i class="fa fa-whatsapp"></i> WhatsApp</a>
+</div>
+
+<script>
+// loader
+setTimeout(()=>document.getElementById("loader").style.display="none",2000);
+
+// typing
+const text="Bot Developer | SENU MD V5 | TECH GUY / HACKER";
+let i=0;
+function type(){
+ if(i<text.length){
+  typing.innerHTML+=text[i++];
+  setTimeout(type,60);
+ }
+}
+type();
+
+// matrix rain
+const c=document.getElementById("matrix");
+const ctx=c.getContext("2d");
+c.width=innerWidth;
+c.height=innerHeight;
+const letters="01";
+const fontSize=16;
+const cols=c.width/fontSize;
+const drops=Array(Math.floor(cols)).fill(1);
+
+function draw(){
+ ctx.fillStyle="rgba(0,0,0,0.05)";
+ ctx.fillRect(0,0,c.width,c.height);
+ ctx.fillStyle="#00ffcc";
+ ctx.font=fontSize+"px monospace";
+ drops.forEach((y,i)=>{
+  const text=letters[Math.floor(Math.random()*letters.length)];
+  ctx.fillText(text,i*fontSize,y*fontSize);
+  if(y*fontSize>c.height && Math.random()>0.95) drops[i]=0;
+  drops[i]++;
+ });
+}
+setInterval(draw,33);
+</script>
 
 </body>
 </html>
